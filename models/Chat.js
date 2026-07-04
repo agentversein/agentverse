@@ -11,6 +11,13 @@ const ChatSchema = new mongoose.Schema(
       type: String,
       default: "New Chat",
     },
+
+    userEmail: {
+      type: String,
+      required: true,
+      index: true,
+    },
+
     messages: [MessageSchema],
   },
   { timestamps: true }

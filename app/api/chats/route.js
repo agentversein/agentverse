@@ -1,11 +1,19 @@
 import connectDB from "@/lib/mongodb";
 import Chat from "@/models/Chat";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 export async function GET() {
   try {
     await connectDB();
 
-    const chats = await Chat.find().sort({
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return Response.json([]);
+    }
+    const chats = await Chat.find({
+      userEmail: session.user.email,
+    }).sort({
       updatedAt: -1,
     });
 
@@ -53,11 +61,20 @@ export async function POST(req) {
 
     const body = await req.json();
 
-    const chat = await Chat.create({
-      title: body.title || "New Chat",
-      messages: [],
-    });
+    const session = await getServerSession(authOptions);
 
+if (!session) {
+  return Response.json(
+    { error: "Unauthorized" },
+    { status: 401 }
+  );
+}
+
+const chat = await Chat.create({
+  userEmail: session.user.email,
+  title: body.title || "New Chat",
+  messages: [],
+});
     return Response.json(chat);
   } catch (error) {
     console.log(error);
