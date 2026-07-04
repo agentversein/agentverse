@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Payment from "@/models/Payment";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
