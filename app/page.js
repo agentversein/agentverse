@@ -153,10 +153,10 @@ setChatList(sortedChats);
 
       {/* Sidebar */}
       <div
-        style={{
-  width: isMobile ? 280 : 300,
-  flexShrink: 0,
-}}
+  style={{
+    width: isMobile ? 0 : 300,
+    flexShrink: 0,
+  }}
 >
         <Sidebar
           agents={agents}
@@ -175,10 +175,13 @@ setChatList(sortedChats);
       </div>
 
       {/* Chat */}
-      <div
-  className="flex-1 w-full overflow-hidden"
+     <div
   style={{
-    marginLeft: isMobile ? 0 : 0,
+    flex: 1,
+    width: "100%",
+    minWidth: 0,
+    overflow: "hidden",
+    display: "flex",
   }}
 >
         <ChatWindow

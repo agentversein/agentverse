@@ -758,19 +758,17 @@ const [imageQuality, setImageQuality] = useState("HD");
     return (
       <div
         style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          background: "#f3f4f6",
-          padding: isMobile ? 0 : 0,
-          height: "calc(100vh - 72px)",
-          minWidth: 0,
-          overflowY: "auto",
-          overflowX: "hidden",
-          width: "100%",
-          maxWidth: "100%",
-          boxSizing: "border-box",
-        }}
+  flex: 1,
+  width: "100%",
+  minWidth: 0,
+  maxWidth: "100%",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  overflow: "hidden",
+  background: "#f3f4f6",
+  boxSizing: "border-box",
+}}
       >
         {/* Header */}
         <div
@@ -799,6 +797,8 @@ const [imageQuality, setImageQuality] = useState("HD");
             padding: isMobile ? "10px" : "20px",
             maxWidth: "100%",
             width: "100%",
+            minWidth: 0,
+            boxSizing: "border-box",
             margin: 0,
             padding: isMobile ? "12px" : "20px",
           }}
@@ -902,21 +902,20 @@ fontWeight:600
               }}
             >
               <div
-                style={{
-                  maxWidth: isMobile ? "100%" : "75%",
-                  padding: "12px 16px",
-                  borderRadius: 12,
-                  background:
-                    msg.sender === "user"
-                      ? "#2563eb"
-                      : "#ffffff",
-                  color:
-                    msg.sender === "user"
-                      ? "#fff"
-                      : "#000",
-                  boxShadow:
-                    "0 2px 6px rgba(0,0,0,.1)",
-                }}
+               style={{
+  width: isMobile ? "100%" : "fit-content",
+  maxWidth: isMobile ? "100%" : "75%",
+  padding: "12px 16px",
+  borderRadius: 12,
+  background:
+    msg.sender === "user" ? "#2563eb" : "#ffffff",
+  color:
+    msg.sender === "user" ? "#fff" : "#000",
+  boxShadow: "0 2px 6px rgba(0,0,0,.1)",
+  boxSizing: "border-box",
+  overflowWrap: "break-word",
+  wordBreak: "break-word",
+}}
               >
                {msg.type === "image" ? (
 
@@ -1230,12 +1229,19 @@ cursor:"pointer"
           {analysis && (
             <div
               style={{
-                background: "#fff",
-                padding: 20,
-                marginBottom: 20,
-                borderRadius: 12,
-                boxShadow: "0 2px 6px rgba(0,0,0,.1)",
-              }}
+  width: "100%",
+  maxWidth: "100%",
+  background: "#ffffff",
+  padding: 20,
+  borderRadius: 12,
+  color: "#111827",
+  lineHeight: 1.8,
+  whiteSpace: "pre-wrap",
+  border: "1px solid #e5e7eb",
+  overflowWrap: "break-word",
+  wordBreak: "break-word",
+  boxSizing: "border-box",
+}}
             >
               <h3>📊 Dataset Summary</h3>
 

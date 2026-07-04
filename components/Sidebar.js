@@ -47,11 +47,11 @@ export default function Sidebar({
 
          position: isMobile ? "fixed" : "relative",
 
-top: 72,
+top: 64,
 
 left: 0,
 
-height: "calc(100vh - 72px)",
+height: "calc(100vh - 64px)",
 
 transform:
   isMobile && !sidebarOpen

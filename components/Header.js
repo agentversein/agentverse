@@ -11,7 +11,18 @@ export default function Header( {
   const { data: session } = useSession();
   
   const [menuOpen, setMenuOpen] = useState(false);
+const [isMobile, setIsMobile] = useState(false);
 
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+
+  return () => window.removeEventListener("resize", checkMobile);
+}, []);
   const [subscription, setSubscription] = useState({
     plan: "free",
     status: "inactive",
@@ -156,7 +167,7 @@ export default function Header( {
           
 
           {/* Desktop Right */}
-         <div className="flex items-center gap-3"> 
+         <div className="hidden md:flex items-center gap-3"> 
           
             {session ? (
               <>
