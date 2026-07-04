@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-export default function Header() {
+export default function Header( {
+  sidebarOpen,
+  setSidebarOpen,
+}) {
   const router = useRouter();
   const { data: session } = useSession();
   
@@ -107,17 +110,17 @@ export default function Header() {
           </div>
 
           <button
-            className="md:hidden text-2xl"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? "✕" : "☰"}
-          </button>
+  className="md:hidden text-2xl"
+  onClick={() => setSidebarOpen(true)}
+>
+  ☰
+</button>
           {/* Desktop Menu */}
           
 
           {/* Desktop Right */}
-         <div className="flex items-center gap-2 flex-wrap justify-end">
-
+         <div className="hidden md:flex items-center gap-3"> 
+          
             {session ? (
               <>
               <button
@@ -176,63 +179,7 @@ export default function Header() {
           </div>
 
         </div>
-        {menuOpen && (
-          <div className="md:hidden border-t bg-white px-4 py-4 space-y-4">
-
-            <button className="block w-full text-left">Home</button>
-            <button className="block w-full text-left">Marketplace</button>
-            <button className="block w-full text-left">Pricing</button>
-            <button className="block w-full text-left">Docs</button>
-
-            {session ? (
-              <>
-                <div className="flex items-center gap-3">
-                  <img
-                    src={session.user.image}
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full"
-                  />
-
-                  <div>
-                    <p className="font-semibold">
-                      {session.user.name}
-                    </p>
-
-                    <p className="text-xs text-gray-500">
-                      {subscription.plan.toUpperCase()}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  onClick={startSubscription}
-                  className="w-full bg-yellow-500 text-white py-2 rounded-lg"
-                >
-                  ⭐ Upgrade Pro
-                </button>
-
-                <button
-                  onClick={() => signOut()}
-                  className="w-full bg-red-500 text-white py-2 rounded-lg"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={() =>
-                  signIn("google", {
-                    prompt: "select_account",
-                  })
-                }
-                className="w-full bg-blue-600 text-white py-2 rounded-lg"
-              >
-                Sign In
-              </button>
-            )}
-
-          </div>
-        )}
+        
 
       </header>
     </>

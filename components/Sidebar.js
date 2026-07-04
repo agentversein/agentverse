@@ -13,50 +13,27 @@ export default function Sidebar({
   createNewChat,
   renameChat,
   isMobile,
-  sideBarOpen,
+  sidebarOpen,
   setSidebarOpen,
 }) {
-  const [mobile, setMobile] = useState(false);
-  const [open, setOpen] = useState(false);
+  
+  
 
-  useEffect(() => {
-    const handleResize = () => {
-      setMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () =>
-      window.removeEventListener(
-        "resize",
-        handleResize
-      );
-  }, []);
+ 
 
   return (
     <>
-      {mobile && (
-        <button
-          onClick={() => setOpen(!open)}
-          style={{
-            position: "fixed",
-            left: 15,
-            top: 90,
-            zIndex: 9999,
-            background: "#2563eb",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            padding: "10px 14px",
-            fontSize: 22,
-            cursor: "pointer",
-          }}
-        >
-          ☰
-        </button>
-      )}
+     {isMobile && sidebarOpen && (
+  <div
+    onClick={() => setSidebarOpen(false)}
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,.45)",
+      zIndex: 998,
+    }}
+  />
+)}
 
       <div
         style={{
@@ -68,21 +45,24 @@ export default function Sidebar({
           padding: 16,
           overflowY: "auto",
 
-          position: mobile ? "fixed" : "relative",
+         position: isMobile ? "fixed" : "relative",
 
-          left: mobile
-            ? open
-              ? 0
-              : -300
-            : 0,
+top: 72,
 
-          top: mobile ? 80 : 0,
+left: 0,
 
-          height: mobile
-            ? "calc(100vh - 80px)"
-            : "100%",
+height: "calc(100vh - 72px)",
 
-          transition: ".3s",
+transform:
+  isMobile && !sidebarOpen
+    ? "translateX(-100%)"
+    : "translateX(0)",
+
+transition: "transform .3s ease",
+
+          boxShadow: isMobile
+  ? "0 0 25px rgba(0,0,0,.25)"
+  : "none",
 
           zIndex: 999,
         }}

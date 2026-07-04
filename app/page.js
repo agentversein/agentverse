@@ -124,9 +124,19 @@ setChatList(sortedChats);
 
   return (
   <>
-    <Header />
+   <Header
+  sidebarOpen={sidebarOpen}
+  setSidebarOpen={setSidebarOpen}
+/>
 
-   <div className="flex flex-col md:flex-row w-full h-[calc(100vh-72px)] mt-[72px]">
+   <div
+  style={{
+    display: "flex",
+    marginTop: "64px",
+    height: "calc(100vh - 64px)",
+    overflow: "hidden",
+  }}
+>
 
       {/* Mobile Overlay */}
       {isMobile && sidebarOpen && (
@@ -144,17 +154,10 @@ setChatList(sortedChats);
       {/* Sidebar */}
       <div
         style={{
-          position: isMobile ? "fixed" : "relative",
-          left: isMobile && !sidebarOpen ? "-320px" : "0",
-          top: 0,
-          width: 300,
-          height: "100vh",
-          zIndex: 100,
-          transition: "left .3s ease",
-          background: "#fff",
-          boxShadow: "0 0 40px rgba(0,0,0,.25)",
-        }}
-      >
+  width: isMobile ? 280 : 300,
+  flexShrink: 0,
+}}
+>
         <Sidebar
           agents={agents}
           selectedAgent={selectedAgent}
@@ -172,7 +175,12 @@ setChatList(sortedChats);
       </div>
 
       {/* Chat */}
-      <div style={{ flex: 1 }}>
+      <div
+  className="flex-1 w-full overflow-hidden"
+  style={{
+    marginLeft: isMobile ? 0 : 0,
+  }}
+>
         <ChatWindow
           selectedAgent={selectedAgent}
           chatList={chatList}

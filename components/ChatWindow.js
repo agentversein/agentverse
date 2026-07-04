@@ -763,9 +763,9 @@ const [imageQuality, setImageQuality] = useState("HD");
           flexDirection: "column",
           background: "#f3f4f6",
           padding: isMobile ? 0 : 0,
-          height: "100vh",
+          height: "calc(100vh - 72px)",
           minWidth: 0,
-          overflow: "hidden",
+          overflow: "auto",
           width: "100%",
           maxWidth: "100%",
         }}
@@ -794,7 +794,7 @@ const [imageQuality, setImageQuality] = useState("HD");
             flex: 1,
             overflowY: "auto",
             overflowX: "hidden",
-            padding: "20px",
+            padding: isMobile ? "10px" : "20px",
             maxWidth: "100%",
             width: "100%",
             margin: 0,
@@ -901,7 +901,7 @@ fontWeight:600
             >
               <div
                 style={{
-                  maxWidth: "75%",
+                  maxWidth: isMobile ? "100%" : "75%",
                   padding: "12px 16px",
                   borderRadius: 12,
                   background:
@@ -1590,17 +1590,18 @@ cursor:"pointer"
 )}
         </div>
         {/* Input */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            gap: 10,
-            padding: 20,
-            background: "#ffffff",
-            borderTop: "1px solid #ddd",
-          }}
-        >
+       <div
+  style={{
+    display: "flex",
+    flexDirection: isMobile ? "column" : "row",
+    alignItems: "stretch",
+    gap: 12,
+    padding: isMobile ? 12 : 20,
+    background: "#ffffff",
+    borderTop: "1px solid #ddd",
+    width: "100%",
+  }}
+>
           <input
             type="text"
             value={message}
@@ -1615,7 +1616,7 @@ cursor:"pointer"
               flex: 1,
               minWidth: 0,
               width: "100%",
-              padding: isMobile ? "14px" :  "12",
+              padding: isMobile ? "14px" :  "12px",
               borderRadius: 10,
               border: "1px solid #ccc",
               outline: "none",
@@ -1726,7 +1727,14 @@ cursor:"pointer"
 
   </div>
 )}
-          <input type="file" accept="image/*" onChange={handleImage} />
+         <input
+  type="file"
+  accept="image/*"
+  onChange={handleImage}
+  style={{
+    width: isMobile ? "100%" : "auto",
+  }}
+/>
           {selectedAgent?.id === "data-agent" && (
             <input
               type="text"
@@ -1773,10 +1781,13 @@ cursor:"pointer"
           )}
           {selectedAgent?.id === "data-agent" && (
             <input
-              type="file"
-              accept=".csv,.xlsx,.xls"
-              onChange={handleDatasetUpload}
-            />
+  type="file"
+  accept=".csv,.xlsx,.xls"
+  onChange={handleDatasetUpload}
+  style={{
+    width: isMobile ? "100%" : "auto",
+  }}
+/>
           )}
           <button onClick={startListening}>🎤</button>
 
@@ -1845,6 +1856,8 @@ cursor:"pointer"
               reader.readAsDataURL(file);
             }}
           />
+           {selectedAgent?.id === "resume-agent" && (
+            <div>
           {profileImage && (
             <img
               src={profileImage}
@@ -1859,20 +1872,7 @@ cursor:"pointer"
               }}
             />
           )}
-          {selectedAgent?.id === "resume-agent" && (
-            <div
-              style={{
-                marginTop: 20,
-                padding: 18,
-                background: "#fff",
-                borderRadius: 12,
-                border: "1px solid #e5e7eb",
-                boxShadow: "0 2px 8px rgba(0,0,0,.08)",
-                maxWidth: 500,
-              }}
-            >
-
-              <h3 style={{ marginBottom: 12 }}>
+          <h3 style={{ marginBottom: 12 }}>
                 🤖 AI Resume Suggestions
               </h3>
 
