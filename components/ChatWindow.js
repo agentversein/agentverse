@@ -765,9 +765,11 @@ const [imageQuality, setImageQuality] = useState("HD");
           padding: isMobile ? 0 : 0,
           height: "calc(100vh - 72px)",
           minWidth: 0,
-          overflow: "auto",
+          overflowY: "auto",
+          overflowX: "hidden",
           width: "100%",
           maxWidth: "100%",
+          boxSizing: "border-box",
         }}
       >
         {/* Header */}
@@ -933,7 +935,7 @@ src={msg.content}
 alt="Generated"
 style={{
 width:"100%",
-maxWidth: 600,
+maxWidth: isMobile ? "100%" : 600,
 borderRadius:12,
 display:"block"
 }}
