@@ -120,48 +120,19 @@ useEffect(() => {
             </div>
           </div>
 
-          <button
+         <button
   className="md:hidden text-2xl"
-  onClick={() => setMenuOpen(!menuOpen)}
+  onClick={() => setSidebarOpen(true)}
 >
   ☰
 </button>
-{isMobile && menuOpen && (
-  <div
-    className="absolute top-16 right-4 bg-white rounded-xl shadow-xl p-4 w-64 z-[99999]"
-  >
-    {session ? (
-      <>
-        <button
-          onClick={() => router.push("/settings")}
-          className="w-full text-left py-2"
-        >
-          ⚙️ Settings
-        </button>
-
-        <button
-          onClick={startSubscription}
-          className="w-full text-left py-2"
-        >
-          ⭐ Upgrade Pro
-        </button>
-
-        <button
-          onClick={() => signOut()}
-          className="w-full text-left py-2 text-red-600"
-        >
-          🚪 Logout
-        </button>
-      </>
-    ) : (
-      <button
-        onClick={() => signIn("google")}
-        className="w-full bg-blue-600 text-white py-2 rounded-lg"
-      >
-        Sign In
-      </button>
-    )}
-  </div>
+{isMobile && session && (
+  <img
+    src={session.user.image}
+    alt="Profile"
+    onClick={() => setMenuOpen(!menuOpen)}
+    className="w-9 h-9 rounded-full cursor-pointer"
+  />
 )}
           {/* Desktop Menu */}
           
@@ -178,11 +149,12 @@ useEffect(() => {
 >
   ⚙️
 </button>
-                <img
-                  src={session.user.image}
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full"
-                />
+               <img
+  src={session.user.image}
+  alt="Profile"
+  onClick={() => setMenuOpen(!menuOpen)}
+  className="w-10 h-10 rounded-full cursor-pointer"
+/>
 
                 <span className="font-medium max-w-[120px] truncate">
   {session.user.name}
