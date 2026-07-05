@@ -57,8 +57,7 @@ useEffect(() => {
   return () =>
     window.removeEventListener("resize", checkMobile);
 }, []);
-  const [aspectRatio, setAspectRatio] = useState("1:1");
-const [imageQuality, setImageQuality] = useState("HD");
+  
   const messagesEndRef = useRef(null);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -803,81 +802,8 @@ const [imageQuality, setImageQuality] = useState("HD");
             padding: isMobile ? "12px" : "20px",
           }}
         >
-        {selectedAgent?.id === "image-agent" && (
-<div
-style={{
-background:"#fff",
-padding:25,
-borderRadius:20,
-boxShadow:"0 8px 25px rgba(0,0,0,.08)",
-marginBottom:20
-}}
->
+       
 
-<h1
-style={{
-margin:0,
-fontSize:32,
-fontWeight:700
-}}
->
-🎨 AI Image Generator
-</h1>
-
-<p
-style={{
-marginTop:8,
-color:"#6b7280"
-}}
->
-Create beautiful AI images from simple text prompts.
-</p>
-
-<div
-style={{
-display:"flex",
-overflowX:"auto",
-gap:10,
-marginTop:20,
-paddingBottom:5
-}}
->
-
-{[
-"Realistic Portrait",
-"Product Photography",
-"Anime",
-"Logo Design",
-"3D Render",
-"Cinematic",
-"Fantasy",
-"Architecture",
-"Food Photography"
-].map((item)=>(
-
-<button
-key={item}
-onClick={()=>setMessage(item)}
-style={{
-padding:"10px 18px",
-border:"none",
-borderRadius:30,
-background:"#2563eb",
-color:"#fff",
-cursor:"pointer",
-whiteSpace:"nowrap",
-fontWeight:600
-}}
->
-{item}
-</button>
-
-))}
-
-</div>
-
-</div>
-)}
           {messages.length === 0 && (
             <div
               style={{
@@ -1631,48 +1557,7 @@ cursor:"pointer"
               fontSize: isMobile ? 16 : 15,
             }}
           />
-          {selectedAgent?.id === "image-agent" && (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))",
-      gap: 12,
-      marginTop: 15,
-      marginBottom: 15,
-      width: "100%",
-    }}
-  >
-    {[
-      "Photorealistic",
-      "Anime",
-      "3D Render",
-      "Cinematic",
-      "Pixel Art",
-      "Watercolor",
-      "Oil Painting",
-      "Logo Design",
-    ].map((style) => (
-      <div
-        key={style}
-        onClick={() => setMessage((prev) => `${prev} ${style}`)}
-        style={{
-          background: "#ffffff",
-          border: "1px solid #e5e7eb",
-          borderRadius: 14,
-          padding: 14,
-          cursor: "pointer",
-          textAlign: "center",
-          fontWeight: 600,
-          transition: ".2s",
-          boxShadow: "0 2px 10px rgba(0,0,0,.05)",
-        }}
-      >
-        🎨<br />
-        {style}
-      </div>
-    ))}
-  </div>
-)}
+         
 
          <input
   type="file"
