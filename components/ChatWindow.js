@@ -1673,68 +1673,7 @@ cursor:"pointer"
     ))}
   </div>
 )}
-{selectedAgent?.id === "image-agent" && (
-  <div
-    style={{
-      display: "flex",
-      flexWrap: "wrap",
-      alignItems: "center",
-      gap: 10,
-      marginTop: 10,
-      marginBottom: 10,
-    }}
-  >
 
-    <select
-      onChange={(e)=>setMessage(e.target.value)}
-      style={{
-        padding:"10px 14px",
-        borderRadius:10,
-        border:"1px solid #ddd",
-        minWidth:180,
-      }}
-    >
-      <option>🎨 Select Style</option>
-      <option>Photorealistic</option>
-      <option>Anime</option>
-      <option>3D Render</option>
-      <option>Cinematic</option>
-      <option>Pixel Art</option>
-      <option>Watercolor</option>
-      <option>Oil Painting</option>
-      <option>Logo Design</option>
-    </select>
-
-    <select
-      value={aspectRatio}
-      onChange={(e)=>setAspectRatio(e.target.value)}
-      style={{
-        padding:"10px",
-        borderRadius:10,
-        border:"1px solid #ddd",
-      }}
-    >
-      <option value="1:1">🟦 1:1</option>
-      <option value="16:9">🖥️ 16:9</option>
-      <option value="9:16">📱 9:16</option>
-    </select>
-
-    <select
-      value={imageQuality}
-      onChange={(e)=>setImageQuality(e.target.value)}
-      style={{
-        padding:"10px",
-        borderRadius:10,
-        border:"1px solid #ddd",
-      }}
-    >
-      <option>HD</option>
-      <option>Ultra HD</option>
-      <option>4K</option>
-    </select>
-
-  </div>
-)}
          <input
   type="file"
   accept="image/*"
