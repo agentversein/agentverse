@@ -1,4 +1,4 @@
-const CACHE_NAME = "agentverse-v1";
+const CACHE_NAME = "agentverse-v2";
 
 const urlsToCache = [
   "/",
@@ -23,8 +23,6 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });

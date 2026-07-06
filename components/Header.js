@@ -9,7 +9,7 @@ export default function Header( {
 }) {
   const router = useRouter();
   const { data: session } = useSession();
-  
+ console.log("SESSION:", session) 
   const [menuOpen, setMenuOpen] = useState(false);
 const [isMobile, setIsMobile] = useState(false);
 
@@ -120,20 +120,31 @@ useEffect(() => {
             </div>
           </div>
 
-         <button
-  className="md:hidden text-2xl"
-  onClick={() => setSidebarOpen(true)}
->
-  ☰
-</button>
-{isMobile && session && (
-  <img
-    src={session.user.image}
-    alt="Profile"
+         <div className="flex items-center gap-3 md:hidden">
+
+  <button
+    onClick={() => setSidebarOpen(true)}
+    className="text-2xl"
+  >
+    ☰
+  </button>
+
+  <button
     onClick={() => setMenuOpen(!menuOpen)}
-    className="w-9 h-9 rounded-full cursor-pointer"
-  />
-)}
+    className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+  >
+    {session?.user?.image ? (
+      <img
+        src={session.user.image}
+        alt="Profile"
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <span className="text-xl">👤</span>
+    )}
+  </button>
+
+</div>
           {/* Desktop Menu */}
           
 
@@ -202,6 +213,68 @@ useEffect(() => {
         
 
       </header>
+      {isMobile && menuOpen && (
+  <div
+    className="fixed top-16 right-4 bg-white rounded-xl shadow-xl p-4 w-56 z-[99999]"
+  >
+    {session ? (
+  <>
+    <div className="flex items-center gap-3 mb-4">
+      <img
+        src={session.user.image}
+        className="w-12 h-12 rounded-full"
+      />
+      <div>
+        <div className="font-bold">
+          {session.user.name}
+        </div>
+        <div className="text-sm text-gray-500">
+          {subscription.plan.toUpperCase()}
+        </div>
+      </div>
+    </div>
+
+    <button
+      onClick={() => router.push("/settings")}
+      className="w-full text-left py-2"
+    >
+      ⚙️ Settings
+    </button>
+
+    <button
+      onClick={startSubscription}
+      className="w-full text-left py-2"
+    >
+      ⭐ Upgrade Pro
+    </button>
+
+    <button
+      onClick={() => signOut()}
+      className="w-full text-left py-2 text-red-600"
+    >
+      🚪 Logout
+    </button>
+  </>
+) : (
+  <>
+    <button
+      onClick={() => signIn("google")}
+      className="w-full bg-blue-600 text-white py-2 rounded-lg"
+    >
+      🔐 Login
+    </button>
+
+    <button
+      onClick={startSubscription}
+      className="w-full mt-2 bg-yellow-500 text-white py-2 rounded-lg"
+    >
+      ⭐ Upgrade Pro
+    </button>
+  </>
+)}
+     
+  </div>
+)}
     </>
   );
 }
