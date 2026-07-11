@@ -755,66 +755,188 @@ useEffect(() => {
       currentPage * rowsPerPage
     );
     return (
-      <div
-        style={{
-  flex: 1,
-  width: "100%",
-  minWidth: 0,
-  maxWidth: "100%",
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  overflow: "hidden",
-  background: "#f3f4f6",
-  boxSizing: "border-box",
-}}
-      >
-        {/* Header */}
-        <div
-          style={{
-            padding: "16px 24px",
-            borderBottom: "1px solid #e5e7eb",
-            background: "#ffffff",
-            position: "sticky",
-            top: 0,
-            zIndex: 100,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          }}
-        >
-          <h2 style={{ margin: 0 }}>
-            {selectedAgent
-              ? `${selectedAgent.icon} ${selectedAgent.name}`
-              : "Select an Agent"}
-          </h2>
+  <div
+    style={{
+      flex: 1,
+      display: "flex",
+      flexDirection: "column",
+      height: "100vh",
+      background: "linear-gradient(180deg,#f8fbff 0%,#eef4ff 100%)",
+      overflow: "hidden",
+    }}
+  >
+       {/* Premium Header */}
+<div
+  style={{
+    height: 72,
+    padding: "0 28px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    background: "rgba(255,255,255,.88)",
+    backdropFilter: "blur(18px)",
+    borderBottom: "1px solid #edf2f7",
+    position: "sticky",
+    top: 0,
+    zIndex: 100,
+  }}
+>
+  <div>
+    <h2
+      style={{
+        margin: 0,
+        fontSize: 24,
+        fontWeight: 700,
+        color: "#111827",
+      }}
+    >
+      {selectedAgent
+        ? `${selectedAgent.icon} ${selectedAgent.name}`
+        : "AgentVerse AI"}
+    </h2>
+
+    <p
+      style={{
+        margin: "4px 0 0",
+        color: "#6b7280",
+        fontSize: 14,
+      }}
+    >
+      Your intelligent AI workspace
+    </p>
+  </div>
+
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+    }}
+  >
+    <div
+      style={{
+        width: 10,
+        height: 10,
+        borderRadius: "50%",
+        background: "#22c55e",
+      }}
+    />
+
+    <span
+      style={{
+        color: "#6b7280",
+        fontSize: 14,
+      }}
+    >
+      AI Ready
+    </span>
+  </div>
+
         </div>
         {/* Messages */}
         <div
           style={{
-            flex: 1,
-            overflowY: "auto",
-            overflowX: "hidden",
-            padding: isMobile ? "10px" : "20px",
-            maxWidth: "100%",
-            width: "100%",
-            minWidth: 0,
-            boxSizing: "border-box",
-            margin: 0,
-            padding: isMobile ? "12px" : "20px",
-          }}
+  flex: 1,
+  overflowY: "auto",
+  padding: isMobile ? 20 : 40,
+  maxWidth: 950,
+  width: "100%",
+  margin: "0 auto",
+  scrollBehavior: "smooth",
+}}
         >
-       
+    
 
           {messages.length === 0 && (
-            <div
-              style={{
-                textAlign: "center",
-                color: "#888",
-                marginTop: 50,
-              }}
-            >
-              Start a new conversation 👋
-            </div>
-          )}
+  <div
+    style={{
+      textAlign: "center",
+      marginTop: 100,
+    }}
+  >
+    <div style={{ fontSize: 70 }}>🚀</div>
+
+    <h1
+      style={{
+        fontSize: 36,
+        marginTop: 20,
+        color: "#111827",
+      }}
+    >
+      Welcome to AgentVerse AI
+    </h1>
+
+    <p
+      style={{
+        color: "#6b7280",
+        fontSize: 18,
+        marginTop: 10,
+      }}
+    >
+      Ask anything. Generate images. Write code.
+      Analyze data. Build resumes.
+    </p>
+    <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))",
+    gap: 18,
+    maxWidth: 900,
+    margin: "50px auto",
+  }}
+>
+
+<div style={{
+padding:25,
+background:"#fff",
+borderRadius:20,
+boxShadow:"0 15px 35px rgba(37,99,235,.08)",
+cursor: "pointer",
+transition: "all .25s ease",
+}}>
+<h3>💬 AI Chat</h3>
+<p>Ask anything instantly.</p>
+</div>
+
+<div style={{
+padding:25,
+background:"#fff",
+borderRadius:20,
+boxShadow:"0 15px 35px rgba(37,99,235,.08)",
+cursor: "pointer",
+transition: "all .25s ease",
+}}>
+<h3>🎨 Images</h3>
+<p>Create AI Images.</p>
+</div>
+
+<div style={{
+padding:25,
+background:"#fff",
+borderRadius:20,
+boxShadow:"0 15px 35px rgba(37,99,235,.08)",
+cursor: "pointer",
+transition: "all .25s ease",
+}}>
+<h3>📄 Resume</h3>
+<p>Generate ATS Resume.</p>
+</div>
+
+<div style={{
+padding:25,
+background:"#fff",
+borderRadius:20,
+boxShadow:"0 15px 35px rgba(37,99,235,.08)",
+cursor: "pointer",
+transition: "all .25s ease",
+}}>
+<h3>📊 Analytics</h3>
+<p>Analyze Excel & CSV.</p>
+</div>
+
+</div>
+  </div>
+)}
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -824,21 +946,55 @@ useEffect(() => {
                   msg.sender === "user"
                     ? "flex-end"
                     : "flex-start",
-                marginBottom: 16,
+                marginBottom: 28,
               }}
             >
+              {msg.sender !== "user" && (
+  <div
+    style={{
+      width: 40,
+      height: 40,
+      borderRadius: "50%",
+      background: "#2563eb",
+      color: "#fff",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: 10,
+      fontSize: 20,
+    }}
+  >
+    🤖
+  </div>
+)}
               <div
                style={{
-  width: isMobile ? "100%" : "fit-content",
-  maxWidth: isMobile ? "100%" : "75%",
-  padding: "12px 16px",
-  borderRadius: 12,
+  width: "fit-content",
+  maxWidth: "78%",
+  padding: "18px 22px",
+
+  borderRadius:
+    msg.sender === "user"
+      ? "24px 24px 6px 24px"
+      : "24px 24px 24px 6px",
+
   background:
-    msg.sender === "user" ? "#2563eb" : "#ffffff",
+    msg.sender === "user"
+      ? "linear-gradient(135deg,#2563eb,#4f46e5)"
+      : "#ffffff",
+
   color:
-    msg.sender === "user" ? "#fff" : "#000",
-  boxShadow: "0 2px 6px rgba(0,0,0,.1)",
-  boxSizing: "border-box",
+    msg.sender === "user"
+      ? "#ffffff"
+      : "#111827",
+
+  border:
+    msg.sender === "user"
+      ? "none"
+      : "1px solid #e5e7eb",
+
+  boxShadow: "0 12px 30px rgba(0,0,0,.08)",
+
   overflowWrap: "break-word",
   wordBreak: "break-word",
 }}
@@ -861,7 +1017,7 @@ alt="Generated"
 style={{
 width:"100%",
 maxWidth: isMobile ? "100%" : 600,
-borderRadius:12,
+borderRadius:20,
 display:"block"
 }}
 /><div
@@ -1147,8 +1303,55 @@ cursor:"pointer"
                     </ReactMarkdown>
                   </div>
                 )}
-
+                {msg.sender !== "user" && (
+  <button
+    onClick={() => navigator.clipboard.writeText(String(msg.content))}
+    style={{
+      marginTop: 10,
+      padding: "8px 14px",
+      border: "none",
+      borderRadius: 10,
+      background: "#f3f4f6",
+      cursor: "pointer",
+    }}
+  >
+    📋 Copy
+  </button>
+)}
+<button
+  onClick={send}
+  style={{
+    marginLeft: 10,
+    padding: "8px 14px",
+    border: "none",
+    borderRadius: 10,
+    background: "#2563eb",
+    color: "#fff",
+    cursor: "pointer",
+  }}
+>
+  🔄 Regenerate
+</button>
               </div>
+              {msg.sender === "user" && (
+  <div
+    style={{
+      width: 42,
+      height: 42,
+      borderRadius: "50%",
+      background: "#111827",
+      color: "#fff",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontWeight: "bold",
+      marginLeft: 12,
+      flexShrink: 0,
+    }}
+  >
+    👤
+  </div>
+)}
             </div>
           ))}
           <div ref={messagesEndRef}></div>
@@ -1294,7 +1497,7 @@ cursor:"pointer"
                 padding: 20,
                 borderRadius: 12,
                 marginBottom: 20,
-                boxShadow: "0 2px 6px rgba(0,0,0,.1)",
+                boxShadow: "0 10px 30px rgba(0,0,0,.08)",
               }}
             >
               <h3>🤖 AI Dataset Insights</h3>
@@ -1519,23 +1722,63 @@ cursor:"pointer"
 
 {loading && selectedAgent?.id !== "image-agent" && (
   <p style={{ color: "#666" }}>
-    🤖 Thinking...
+   <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    color: "#6b7280",
+    marginTop: 20,
+  }}
+>
+  <div
+    style={{
+      width: 12,
+      height: 12,
+      borderRadius: "50%",
+      background: "#2563eb",
+      animation: "pulse 1s infinite",
+    }}
+  />
+  AgentVerse AI is thinking...
+</div>
   </p>
 )}
         </div>
         {/* Input */}
        <div
   style={{
-    display: "flex",
-    flexDirection: isMobile ? "column" : "row",
-    alignItems: "stretch",
-    gap: 12,
-    padding: isMobile ? 12 : 20,
-    background: "#ffffff",
-    borderTop: "1px solid #ddd",
+    position: "sticky",
+    bottom: 0,
     width: "100%",
+    background: "transparent",
+    padding: "18px 24px",
+    borderTop: "1px solid #e5e7eb",
+    boxShadow: "0 -10px 30px rgba(0,0,0,.08)",
+    zIndex: 100,
   }}
 >
+  <div
+style={{
+  maxWidth: 900,
+  margin: "0 auto 25px",
+  display: "flex",
+  alignItems: "center",
+  gap: 15,
+
+  background: "#ffffff",
+
+  padding: 15,
+
+  borderRadius: 30,
+
+  border: "1px solid #e5e7eb",
+
+  boxShadow: "0 20px 50px rgba(37,99,235,.15)",
+}}
+>
+
+  
           <input
             type="text"
             value={message}
@@ -1545,17 +1788,22 @@ cursor:"pointer"
                 send();
               }
             }}
-            placeholder="Ask anything..."
-            style={{
-              flex: 1,
-              minWidth: 0,
-              width: "100%",
-              padding: isMobile ? "14px" :  "12px",
-              borderRadius: 10,
-              border: "1px solid #ccc",
-              outline: "none",
-              fontSize: isMobile ? 16 : 15,
-            }}
+           placeholder="💬 Ask AgentVerse anything..."
+            className="flex-1 h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
+          style={{
+  flex: 1,
+  height: 60,
+
+  border: "none",
+
+  outline: "none",
+
+  background: "transparent",
+
+  fontSize: 17,
+
+  paddingLeft: 10,
+}}
           />
          
 
@@ -1582,6 +1830,7 @@ cursor:"pointer"
               }}
             />
           )}
+          </div>
           {sheetNames.length > 0 && (
             <select
               value={selectedSheet}
@@ -1626,18 +1875,28 @@ cursor:"pointer"
           <button
             onClick={send}
             disabled={loading}
-            style={{
-              padding: "12px 18px",
-              border: "none",
-              borderRadius: 10,
-              background: "#2563eb",
-              color: "#fff",
-              cursor: loading ? "not-allowed" : "pointer",
-              width: isMobile ? "100%" : "auto",
-              marginTop: isMobile ? 10 : 0,
-            }}
+           style={{
+  width: 58,
+  height: 58,
+
+  borderRadius: "50%",
+
+  border: "none",
+
+  background:
+    "linear-gradient(135deg,#2563eb,#4f46e5)",
+
+  color: "#fff",
+
+  fontSize: 22,
+
+  cursor: "pointer",
+
+  boxShadow:
+    "0 10px 25px rgba(37,99,235,.35)",
+}}
           >
-            {loading ? "..." : "Send"}
+           {loading ? "⏳" : "🚀"}
           </button>
           {selectedAgent?.id === "resume-agent" && (
             <>
