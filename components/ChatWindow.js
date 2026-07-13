@@ -969,9 +969,9 @@ transition: "all .25s ease",
 )}
               <div
                style={{
-  width: "fit-content",
-  maxWidth: "78%",
-  padding: "18px 22px",
+  width: "100%",
+  maxWidth: "850px",
+  margin: "0 auto",
 
   borderRadius:
     msg.sender === "user"
@@ -1721,28 +1721,26 @@ cursor:"pointer"
 )}
 
 {loading && selectedAgent?.id !== "image-agent" && (
-  <p style={{ color: "#666" }}>
-   <div
+  <div
   style={{
     display: "flex",
     alignItems: "center",
     gap: 10,
     color: "#6b7280",
-    marginTop: 20,
+    fontSize: 14,
   }}
 >
-  <div
+  <span
     style={{
       width: 12,
       height: 12,
       borderRadius: "50%",
       background: "#2563eb",
-      animation: "pulse 1s infinite",
+      display: "inline-block",
     }}
   />
-  AgentVerse AI is thinking...
+  <span>AgentVerse AI is thinking...</span>
 </div>
-  </p>
 )}
         </div>
         {/* Input */}
@@ -1780,219 +1778,170 @@ style={{
 
   
           <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                send();
-              }
-            }}
-           placeholder="💬 Ask AgentVerse anything..."
-            className="flex-1 h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
-          style={{
-  flex: 1,
-  height: 60,
+  type="text"
+  value={message}
+  onChange={(e) => setMessage(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      send();
+    }
+  }}
+  placeholder="💬 Ask AgentVerse anything..."
+  className="flex-1 h-12 w-full rounded-lg border border-gray-300 px-4 text-base"
+  style={{
+    flex: 1,
+    height: 60,
+    border: "none",
+    outline: "none",
+    background: "transparent",
+    fontSize: 17,
+    paddingLeft: 10,
+  }}
+/>
 
-  border: "none",
-
-  outline: "none",
-
-  background: "transparent",
-
-  fontSize: 17,
-
-  paddingLeft: 10,
-}}
-          />
-         
-
-         <input
+<input
+  id="imageUpload"
   type="file"
   accept="image/*"
   onChange={handleImage}
-  style={{
-    width: isMobile ? "100%" : "auto",
-  }}
+  style={{ display: "none" }}
 />
-          {selectedAgent?.id === "data-agent" && (
-            <input
-              type="text"
-              placeholder="🔍 Search dataset..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              style={{
-                padding: 10,
-                borderRadius: 8,
-                border: "1px solid #ccc",
-                width: "100%",
-                maxWidth: "100%",
-              }}
-            />
-          )}
-          </div>
-          {sheetNames.length > 0 && (
-            <select
-              value={selectedSheet}
-              onChange={(e) => {
-                const sheetName = e.target.value;
 
-                setSelectedSheet(sheetName);
-
-                if (!workbook) return;
-
-                const sheet = workbook.Sheets[sheetName];
-
-                const json = XLSX.utils.sheet_to_json(sheet);
-
-                analyzeDataset(json);
-              }}
-              style={{
-                padding: 10,
-                borderRadius: 8,
-                border: "1px solid #ccc",
-              }}
-            >
-              {sheetNames.map((sheet) => (
-                <option key={sheet} value={sheet}>
-                  {sheet}
-                </option>
-              ))}
-            </select>
-          )}
-          {selectedAgent?.id === "data-agent" && (
-            <input
+{selectedAgent?.id === "data-agent" && (
+  <input
+  id="datasetUpload"
   type="file"
   accept=".csv,.xlsx,.xls"
   onChange={handleDatasetUpload}
-  style={{
-    width: isMobile ? "100%" : "auto",
-  }}
+  style={{ display: "none" }}
 />
-          )}
-          <button onClick={startListening}>🎤</button>
+)}
+<button
+  onClick={() => {
+    if (selectedAgent?.id === "data-agent") {
+      document.getElementById("datasetUpload")?.click();
+    } else if (selectedAgent?.id === "resume-agent") {
+      document.getElementById("resumePhoto")?.click();
+    } else {
+      document.getElementById("imageUpload")?.click();
+    }
+  }}
+  style={{
+    width: 52,
+    height: 52,
+    borderRadius: "50%",
+    border: "none",
+    background: "#f3f4f6",
+    cursor: "pointer",
+    fontSize: 22,
+  }}
+>
+  📎
+</button>
+<button
+  onClick={startListening}
+  style={{
+    width: 52,
+    height: 52,
+    borderRadius: "50%",
+    border: "none",
+    background: "#f3f4f6",
+    cursor: "pointer",
+    fontSize: 20,
+  }}
 
-          <button
-            onClick={send}
-            disabled={loading}
-           style={{
-  width: 58,
-  height: 58,
+>
+  🎤
+</button>
 
-  borderRadius: "50%",
+<button
+  onClick={send}
+  disabled={loading}
+  style={{
+    width: 58,
+    height: 58,
+    borderRadius: "50%",
+    border: "none",
+    background: "linear-gradient(135deg,#2563eb,#4f46e5)",
+    color: "#fff",
+    fontSize: 22,
+    cursor: "pointer",
+    boxShadow: "0 10px 25px rgba(37,99,235,.35)",
+  }}
+>
+  {loading ? "⏳" : "🚀"}
+</button>
 
-  border: "none",
+{selectedAgent?.id === "resume-agent" && (
+  <>
+    <input
+  id="resumePhoto"
+  type="file"
+  accept="image/*"
+  onChange={(e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  background:
-    "linear-gradient(135deg,#2563eb,#4f46e5)",
+    const reader = new FileReader();
 
-  color: "#fff",
+    reader.onload = () => {
+      setProfileImage(reader.result);
+    };
 
-  fontSize: 22,
+    reader.readAsDataURL(file);
+  }}
+  style={{ display: "none" }}
+/>
 
-  cursor: "pointer",
+    <div>
+      {profileImage && (
+        <img
+          src={profileImage}
+          alt="Profile"
+          style={{
+            width: 100,
+            height: 100,
+            borderRadius: "50%",
+            objectFit: "cover",
+            border: "3px solid #2563eb",
+            marginBottom: 15,
+          }}
+        />
+      )}
 
-  boxShadow:
-    "0 10px 25px rgba(37,99,235,.35)",
-}}
-          >
-           {loading ? "⏳" : "🚀"}
-          </button>
-          {selectedAgent?.id === "resume-agent" && (
-            <>
-              <select
-                value={resumeTemplate}
-                onChange={(e) => setResumeTemplate(e.target.value)}
-                style={{
-                  padding: "10px",
-                  borderRadius: 8,
-                  border: "1px solid #ddd",
-                  marginRight: 10,
-                }}
-              >
-                <option value="modern">Modern ATS</option>
-                <option value="professional">Professional</option>
-                <option value="creative">Creative</option>
-                <option value="executive">Executive</option>
-              </select>
-              <button
-                onClick={downloadResumePDF}
-                style={{
-                  padding: "12px 22px",
-                  border: "none",
-                  borderRadius: 10,
-                  background: "#16a34a",
-                  color: "#fff",
-                  cursor: "pointer",
-                }}
+      <h3 style={{ marginBottom: 12 }}>
+        🤖 AI Resume Suggestions
+      </h3>
 
-              >
-                📄 Download Resume PDF
-              </button>
-            </>
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              if (!file) return;
+      <ul style={{ paddingLeft: 20, lineHeight: 2 }}>
+        <li>✅ Add measurable achievements.</li>
+        <li>✅ Include LinkedIn profile.</li>
+        <li>✅ Add GitHub or Portfolio.</li>
+        <li>✅ Use strong action verbs.</li>
+        <li>✅ Tailor skills for the target job.</li>
+        <li>✅ Keep resume to one page.</li>
+      </ul>
+    </div>
+  </>
+)}
 
-              const reader = new FileReader();
-
-              reader.onload = () => {
-                setProfileImage(reader.result);
-              };
-
-              reader.readAsDataURL(file);
-            }}
-          />
-           {selectedAgent?.id === "resume-agent" && (
-            <div>
-          {profileImage && (
-            <img
-              src={profileImage}
-              alt="Profile"
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: "3px solid #2563eb",
-                marginBottom: 15,
-              }}
-            />
-          )}
-          <h3 style={{ marginBottom: 12 }}>
-                🤖 AI Resume Suggestions
-              </h3>
-
-              <ul style={{ paddingLeft: 20, lineHeight: 2 }}>
-                <li>✅ Add measurable achievements.</li>
-                <li>✅ Include LinkedIn profile.</li>
-                <li>✅ Add GitHub or Portfolio.</li>
-                <li>✅ Use strong action verbs.</li>
-                <li>✅ Tailor skills for the target job.</li>
-                <li>✅ Keep resume to one page.</li>
-              </ul>
-            </div>
-          )}
-          {selectedAgent?.id === "data-agent" && (
-            <button
-              onClick={downloadAnalyticsPDF}
-              style={{
-                padding: "12px 22px",
-                border: "none",
-                borderRadius: 10,
-                background: "#7c3aed",
-                color: "#fff",
-                cursor: "pointer",
-              }}
-            >
-              📊 Download Analytics PDF
-            </button>
-          )}
+{selectedAgent?.id === "data-agent" && (
+  <button
+    onClick={downloadAnalyticsPDF}
+    style={{
+      padding: "12px 22px",
+      border: "none",
+      borderRadius: 10,
+      background: "#7c3aed",
+      color: "#fff",
+      cursor: "pointer",
+    }}
+  >
+    📊 Download Analytics PDF
+  </button>
+)}
         </div>
+      </div>
       </div>
     );
   }
