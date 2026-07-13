@@ -106,19 +106,23 @@ useEffect(() => {
       <header className="fixed top-0 left-0 right-0 z-[99999] bg-white border-b shadow-sm">
         <div className="flex items-center justify-between px-4 md:px-6 py-4">
 
-          <div className="flex items-center gap-3">
-            <div className="text-3xl">🚀</div>
+        <div className="flex items-center gap-3">
+  <img
+    src="/logo.png"
+    alt="AgentVerse"
+    className="w-10 h-10 rounded-lg"
+  />
 
-            <div>
-              <h1 className="text-xl font-bold">
-                AgentVerse
-              </h1>
+  <div>
+    <h1 className="text-xl font-bold">
+      AgentVerse
+    </h1>
 
-              <p className="hidden md:block text-sm text-gray-500">
-                AI Agent Marketplace
-              </p>
-            </div>
-          </div>
+    <p className="hidden md:block text-sm text-gray-500">
+      AI Agent Marketplace
+    </p>
+  </div>
+</div>
 
          <div className="flex items-center gap-3 md:hidden">
 
