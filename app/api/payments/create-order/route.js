@@ -24,7 +24,7 @@ export async function POST(req) {
 
     const prices = {
       pro: 9900,      // ₹99.00
-      business: 9900, // ₹99.00
+      
     };
 
     console.log("PRICE:", prices[plan]);
