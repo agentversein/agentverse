@@ -30,9 +30,17 @@ export default function AboutPage() {
         <strong>Email:</strong> apal7528035919@gmail.com
       </p>
 
-      <p>
-        <strong>Website:</strong> https://agentverse-gold.vercel.app
-      </p>
+     <p>
+  <strong>Website:</strong>{" "}
+  <a
+    href="https://agentverse-gold.vercel.app"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ color: "#2563eb" }}
+  >
+    https://agentverse-gold.vercel.app
+  </a>
+</p>
 
       <p>
         <strong>Version:</strong> 1.0.0
