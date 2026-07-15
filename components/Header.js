@@ -50,6 +50,10 @@ useEffect(() => {
       });
 
       const order = await res.json();
+      alert("Backend Amount: " + order.amount);
+
+
+
 console.log("ORDER:", order);
 alert(JSON.stringify(order, null, 2));
       const options = {
