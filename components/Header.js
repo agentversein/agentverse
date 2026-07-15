@@ -50,12 +50,14 @@ useEffect(() => {
       });
 
       const order = await res.json();
-      alert(JSON.stringify(order, null, 2));
-return;
+     console.log(order);
 
+if (!order.id) {
+  alert("Order ID missing");
+  return;
+}
 
-console.log("ORDER:", order);
-
+alert(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
