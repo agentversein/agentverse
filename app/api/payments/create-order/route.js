@@ -11,7 +11,8 @@ const razorpay = new Razorpay({
 
 export async function POST(req) {
   try {
-   console.log("KEY:", process.env.RAZORPAY_KEY_ID?.substring(0, 12));
+  console.log("KEY:", process.env.RAZORPAY_KEY_ID);
+console.log("PUBLIC:", process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
 console.log("SECRET EXISTS:", !!process.env.RAZORPAY_KEY_SECRET);
     const { plan } = await req.json();
 await connectDB();
