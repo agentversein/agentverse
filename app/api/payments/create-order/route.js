@@ -66,14 +66,17 @@ await Payment.create({
 });
 
 return NextResponse.json(order);
-  } catch (error) {
-  console.log("ERROR TYPE:", typeof error);
+ } catch (error) {
+  console.error("CREATE ORDER ERROR:");
   console.dir(error, { depth: null });
 
   return NextResponse.json(
     {
       success: false,
-      error: String(error),
+      message: error?.message,
+      name: error?.name,
+      stack: error?.stack,
+      error,
     },
     { status: 500 }
   );
