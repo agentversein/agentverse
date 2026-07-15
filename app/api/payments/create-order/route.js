@@ -66,10 +66,13 @@ export async function POST(req) {
     return NextResponse.json(order);
 
   } catch (error) {
-    console.error("CREATE ORDER ERROR:", error);
+    console.error( error);
 
     return NextResponse.json(
-      { error: "Unable to create order" },
+    {
+      message: error.message,
+      stack: error.stack,
+    },
       { status: 500 }
     );
   }
