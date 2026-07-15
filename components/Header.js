@@ -57,7 +57,7 @@ if (!order.id) {
   return;
 }
 
-alert(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
+
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
