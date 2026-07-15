@@ -20,7 +20,9 @@ export async function POST(req) {
 
     console.log("PLAN:", plan);
 
-    await connectDB();
+   console.log("STEP 1");
+await connectDB();
+console.log("STEP 2");
 
     const prices = {
       pro: 9900,      // ₹99.00
@@ -30,6 +32,7 @@ export async function POST(req) {
     console.log("PRICE:", prices[plan]);
 
     const session = await getServerSession(authOptions);
+console.log("STEP 3", session);
 
     if (!session) {
       return NextResponse.json(
@@ -45,11 +48,13 @@ export async function POST(req) {
       );
     }
 
-    const order = await razorpay.orders.create({
-      amount: prices[plan],
-      currency: "INR",
-      receipt: `agentverse_${Date.now()}`,
-    });
+   const order = await razorpay.orders.create({
+  amount: prices[plan],
+  currency: "INR",
+  receipt: `agentverse_${Date.now()}`,
+});
+
+console.log("STEP 4", order);
 
     console.log("ORDER AMOUNT:", order.amount);
 
@@ -66,16 +71,15 @@ export async function POST(req) {
     return NextResponse.json(order);
 
   } catch (error) {
-  console.error("CREATE ORDER ERROR:", error);
+  console.log("ERROR TYPE:", typeof error);
+  console.dir(error, { depth: null });
 
   return NextResponse.json(
     {
       success: false,
-      message: error?.message || "Unknown Error",
-      stack: error?.stack || "",
-      name: error?.name || "",
+      error: String(error),
     },
     { status: 500 }
   );
-  }
+}
 }
