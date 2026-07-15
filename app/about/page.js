@@ -31,7 +31,7 @@ export default function AboutPage() {
       </p>
 
       <p>
-        <strong>Website:</strong> https://agentverse.vercel.app
+        <strong>Website:</strong> https://agentverse-gold.vercel.app
       </p>
 
       <p>
