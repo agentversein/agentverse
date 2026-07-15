@@ -14,16 +14,17 @@ const [chartData, setChartData] = useState({
   labels: [],
   values: [],
 });
-  useEffect(() => {
-    fetch("/api/admin/stats")
-      .then((res) => res.json())
-      .then((data) => setStats(data))
-      .catch(console.error);
-  }, []);
-fetch("/api/admin/revenue")
-  .then((res) => res.json())
-  .then((data) => setChartData(data))
-  .catch(console.error);
+ useEffect(() => {
+  fetch("/api/admin/stats")
+    .then((res) => res.json())
+    .then((data) => setStats(data))
+    .catch(console.error);
+
+  fetch("/api/admin/revenue")
+    .then((res) => res.json())
+    .then((data) => setChartData(data))
+    .catch(console.error);
+}, []);
   return (
     <div className="min-h-screen bg-gray-100 p-8">
 

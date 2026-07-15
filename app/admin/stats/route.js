@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
-
+import User from "@/models/User";
 import Chat from "@/models/Chat";
 import Payment from "@/models/Payment";
 import Subscription from "@/models/Subscription";
@@ -29,7 +29,7 @@ export async function GET() {
       status: "active",
     });
 
-    const users = await Subscription.distinct("userEmail");
+   const users = await User.countDocuments();
 
     return NextResponse.json({
       users: users.length,
