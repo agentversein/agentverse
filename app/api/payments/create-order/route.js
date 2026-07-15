@@ -66,14 +66,16 @@ export async function POST(req) {
     return NextResponse.json(order);
 
   } catch (error) {
-    console.error( error);
+  console.error("CREATE ORDER ERROR:", error);
 
-    return NextResponse.json(
+  return NextResponse.json(
     {
-      message: error.message,
-      stack: error.stack,
+      success: false,
+      message: error?.message || "Unknown Error",
+      stack: error?.stack || "",
+      name: error?.name || "",
     },
-      { status: 500 }
-    );
+    { status: 500 }
+  );
   }
 }
