@@ -50,7 +50,7 @@ useEffect(() => {
       });
 
       const order = await res.json();
-      alert("Backend Amount: " + order.amount);
+      alert(JSON.stringify(order, null, 2));
 
 
 
