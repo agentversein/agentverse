@@ -19,36 +19,35 @@ export async function POST(req) {
     const { plan } = await req.json();
 
     console.log("PLAN:", plan);
+console.log("STEP 1");
 
-   console.log("STEP 1");
 await connectDB();
+
 console.log("STEP 2");
 
-    const prices = {
-      pro: 9900,      // ₹99.00
-      
-    };
+const prices = {
+  pro: 9900,
+};
 
-    console.log("PRICE:", prices[plan]);
+const session = await getServerSession(authOptions);
 
-    const session = await getServerSession(authOptions);
-console.log("STEP 3", session);
+console.log("STEP 3", session?.user?.email);
 
-    if (!session) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
+if (!session) {
+  return NextResponse.json(
+    { error: "Unauthorized" },
+    { status: 401 }
+  );
+}
 
-    if (!prices[plan]) {
-      return NextResponse.json(
-        { error: "Invalid plan" },
-        { status: 400 }
-      );
-    }
+if (!prices[plan]) {
+  return NextResponse.json(
+    { error: "Invalid plan" },
+    { status: 400 }
+  );
+}
 
-   const order = await razorpay.orders.create({
+const order = await razorpay.orders.create({
   amount: prices[plan],
   currency: "INR",
   receipt: `agentverse_${Date.now()}`,
@@ -56,20 +55,17 @@ console.log("STEP 3", session);
 
 console.log("STEP 4", order);
 
-    console.log("ORDER AMOUNT:", order.amount);
+await Payment.create({
+  userEmail: session.user.email,
+  orderId: order.id,
+  paymentId: "",
+  plan: plan.toUpperCase(),
+  amount: prices[plan] / 100,
+  currency: "INR",
+  status: "Pending",
+});
 
-    await Payment.create({
-      userEmail: session.user.email,
-      orderId: order.id,
-      paymentId: "",
-      plan: plan.toUpperCase(),
-      amount: prices[plan] / 100,
-      currency: "INR",
-      status: "Pending",
-    });
-
-    return NextResponse.json(order);
-
+return NextResponse.json(order);
   } catch (error) {
   console.log("ERROR TYPE:", typeof error);
   console.dir(error, { depth: null });
