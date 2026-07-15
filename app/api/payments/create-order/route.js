@@ -42,6 +42,7 @@ if (!session) {
       currency: "INR",
       receipt: `agentverse_${Date.now()}`,
     });
+    console.log("ORDER AMOUNT:", order.amount);
 await Payment.create({
   userEmail: session.user.email,
   orderId: order.id,
