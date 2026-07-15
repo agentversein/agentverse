@@ -51,11 +51,11 @@ useEffect(() => {
 
       const order = await res.json();
       alert(JSON.stringify(order, null, 2));
-
+return;
 
 
 console.log("ORDER:", order);
-alert(JSON.stringify(order, null, 2));
+
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
