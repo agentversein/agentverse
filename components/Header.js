@@ -244,7 +244,12 @@ useEffect(() => {
     >
       ⚙️ Settings
     </button>
-
+<button
+  onClick={() => router.push("/about")}
+  className="p-2 rounded-lg hover:bg-gray-100"
+>
+  ℹ️ About
+</button>
     <button
       onClick={startSubscription}
       className="w-full text-left py-2"

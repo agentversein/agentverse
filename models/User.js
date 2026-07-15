@@ -34,7 +34,45 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    chatCount: {
+  type: Number,
+  default: 0,
+},
 
+imageCount: {
+  type: Number,
+  default: 0,
+},
+
+codeCount: {
+  type: Number,
+  default: 0,
+},
+
+seoCount: {
+  type: Number,
+  default: 0,
+},
+
+resumeCount: {
+  type: Number,
+  default: 0,
+},
+
+emailCount: {
+  type: Number,
+  default: 0,
+},
+
+researchCount: {
+  type: Number,
+  default: 0,
+},
+
+dataCount: {
+  type: Number,
+  default: 0,
+},
     lastLogin: {
       type: Date,
       default: Date.now,

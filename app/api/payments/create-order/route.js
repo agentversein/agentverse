@@ -25,8 +25,8 @@ if (!session) {
   );
 }
     const prices = {
-      pro: 49900,       // ₹499.00
-      business: 99900,  // ₹999.00
+      pro: 9900,       // ₹99.00
+      business: 9900,  // ₹99.00
     };
 
     if (!prices[plan]) {

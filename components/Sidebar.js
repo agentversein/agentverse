@@ -137,47 +137,7 @@ transition: "transform .3s ease",
 </button>
 <hr style={{ margin: "18px 0" }} />
 
-<button
-  style={{
-    padding: 10,
-    background: "#111827",
-    color: "#fff",
-    border: "none",
-    borderRadius: 8,
-    cursor: "pointer",
-    marginBottom: 10,
-  }}
->
-  🔐 Login
-</button>
 
-<button
-  style={{
-    padding: 10,
-    background: "#f59e0b",
-    color: "#fff",
-    border: "none",
-    borderRadius: 8,
-    cursor: "pointer",
-    marginBottom: 10,
-  }}
->
-  ⭐ Upgrade Pro
-</button>
-
-<button
-  style={{
-    padding: 10,
-    background: "#6b7280",
-    color: "#fff",
-    border: "none",
-    borderRadius: 8,
-    cursor: "pointer",
-    marginBottom: 16,
-  }}
->
-  ⚙️ Settings
-</button>
 
 <hr style={{ margin: "18px 0" }} />
         <h3 style={{ marginBottom: 10 }}>

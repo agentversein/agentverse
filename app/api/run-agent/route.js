@@ -3,6 +3,7 @@ import { runAI } from "@/lib/ai";
 import connectDB from "@/lib/mongodb";
 import Memory from "@/models/Memory";
 import Chat from "@/models/Chat";
+import User from "@/models/User";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 
@@ -207,7 +208,45 @@ export async function POST(req) {
 await connectDB();
 
 const session = await getServerSession(authOptions);
+const user = session?.user?.email
+  ? await User.findOne({ email: session.user.email })
+  : null;
 
+if (user && !user.isPro) {
+
+  const limits = {
+    "chat-agent": ["chatCount", 15],
+    "image-agent": ["imageCount", 1],
+    "coding-agent": ["codeCount", 1],
+    "seo-agent": ["seoCount", 1],
+    "resume-agent": ["resumeCount", 1],
+    "email-agent": ["emailCount", 1],
+    "research-agent": ["researchCount", 1],
+    "data-agent": ["dataCount", 1],
+  };
+
+  if (limits[agentId]) {
+
+    const [field, limit] = limits[agentId];
+
+    if ((user[field] || 0) >= limit) {
+
+      return Response.json({
+        success: false,
+        code: "LIMIT_REACHED",
+        message:
+          "Your free limit is over. Please upgrade to AgentVerse Pro.",
+      });
+
+    }
+
+    user[field]++;
+
+    await user.save();
+
+  }
+
+}
 let memoryContext = "";
 
 if (session?.user?.email) {

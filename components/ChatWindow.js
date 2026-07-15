@@ -659,6 +659,46 @@ useEffect(() => {
         });
     };
     const send = async () => {
+      // ===== FREE LIMIT CHECK =====
+
+const chatCount =
+  Number(localStorage.getItem("chatCount") || "0");
+
+const agentUsage = JSON.parse(
+  localStorage.getItem("agentUsage") || "{}"
+);
+
+// AI Chat → 15 free
+if (selectedAgent?.id === "chat-agent") {
+  if (chatCount >= 15) {
+    alert(
+      "🎉 Your 15 free AI chats are over.\n\nPlease upgrade to Pro."
+    );
+    return;
+  }
+
+  localStorage.setItem(
+    "chatCount",
+    String(chatCount + 1)
+  );
+}
+
+// Other Agents → 1 free
+if (selectedAgent?.id !== "chat-agent") {
+  if (agentUsage[selectedAgent.id]) {
+    alert(
+      `${selectedAgent.name} free trial finished.\n\nPlease upgrade to Pro.`
+    );
+    return;
+  }
+
+  agentUsage[selectedAgent.id] = true;
+
+  localStorage.setItem(
+    "agentUsage",
+    JSON.stringify(agentUsage)
+  );
+}
       if (!message.trim() || !selectedAgent) return;
       if (!currentChatId) {
         createNewChat();
