@@ -20,7 +20,10 @@ const InvoiceSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
         },
-
+        productId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Product",
+},
         name: String,
         qty: Number,
         price: Number,

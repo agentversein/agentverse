@@ -1,5 +1,6 @@
 "use client";
-
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { useState, useEffect } from "react";
 
 export default function BillingPage() {
@@ -8,33 +9,41 @@ export default function BillingPage() {
   const [products, setProducts] = useState([]);
   const [items, setItems] = useState([
     {
+      product: "",
       name: "",
       qty: 1,
       price: 0,
       gst: 18,
     },
   ]);
-  useEffect(() => {
-  fetch("/api/customers")
-    .then((res) => res.json())
-    .then((data) => setCustomers(data))
-    .catch(console.error);
+ useEffect(() => {
+  loadCustomers();
+  loadProducts();
 }, []);
-fetch("/api/products")
-  .then((res) => res.json())
-  .then((data) => setProducts(data))
-  .catch(console.error);
+
+const loadCustomers = async () => {
+  const res = await fetch("/api/customers");
+  const data = await res.json();
+  setCustomers(data);
+};
+
+const loadProducts = async () => {
+  const res = await fetch("/api/products");
+  const data = await res.json();
+  setProducts(data);
+};
   const addItem = () => {
-    setItems([
-      ...items,
-      {
-        name: "",
-        qty: 1,
-        price: 0,
-        gst: 18,
-      },
-    ]);
-  };
+  setItems([
+    ...items,
+    {
+      product: "",
+      name: "",
+      qty: 1,
+      price: 0,
+      gst: 18,
+    },
+  ]);
+};
   const generateInvoice = async () => {
   try {
     const res = await fetch("/api/invoices/create", {
@@ -50,7 +59,42 @@ fetch("/api/products")
         grandTotal: total,
       }),
     });
+    const generatePDF = () => {
+  const doc = new jsPDF();
 
+  doc.setFontSize(20);
+  doc.text("TAX INVOICE", 80, 20);
+
+  doc.setFontSize(12);
+  doc.text(`Customer: ${customer}`, 15, 35);
+  doc.text(`Date: ${new Date().toLocaleDateString()}`, 15, 42);
+
+  autoTable(doc, {
+    startY: 50,
+    head: [["Product", "Qty", "Price", "GST", "Total"]],
+    body: items.map((item) => [
+      item.name,
+      item.qty,
+      `₹${item.price}`,
+      `${item.gst}%`,
+      `₹${(
+        item.qty *
+        item.price *
+        (1 + item.gst / 100)
+      ).toFixed(2)}`,
+    ]),
+  });
+
+  const finalY = doc.lastAutoTable.finalY + 10;
+
+  doc.text(`Subtotal : ₹${subtotal}`, 15, finalY);
+  doc.text(`GST : ₹${gstAmount}`, 15, finalY + 8);
+
+  doc.setFontSize(15);
+  doc.text(`Grand Total : ₹${total}`, 15, finalY + 18);
+
+  doc.save("Invoice.pdf");
+};
     const data = await res.json();
 
     if (data.success) {
@@ -85,7 +129,7 @@ fetch("/api/products")
 
       <div className="bg-white rounded-xl shadow p-6">
 
-       <select
+     <select
   value={customer}
   onChange={(e) => setCustomer(e.target.value)}
   className="w-full border rounded-lg p-3 mb-6"
@@ -102,20 +146,26 @@ fetch("/api/products")
         {items.map((item, index) => (
           <div
             key={index}
-            className="grid grid-cols-4 gap-3 mb-4"
+            className="grid grid-cols-5 gap-3 mb-4"
           >
             <select
-  value={item.name}
+  value={item.product}
   onChange={(e) => {
     const selected = products.find(
       (p) => p._id === e.target.value
     );
 
+    if (!selected) return;
+
     const temp = [...items];
 
-    temp[index].name = selected.name;
-    temp[index].price = selected.sellingPrice;
-    temp[index].gst = selected.gst;
+    temp[index] = {
+      ...temp[index],
+      product: selected._id,
+      name: selected.name,
+      price: Number(selected.sellingPrice),
+      gst: Number(selected.gst),
+    };
 
     setItems(temp);
   }}
@@ -129,6 +179,7 @@ fetch("/api/products")
     </option>
   ))}
 </select>
+           
 
             <input
               type="number"
@@ -189,6 +240,12 @@ fetch("/api/products")
   className="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg"
 >
   Generate Invoice
+</button>
+<button
+  onClick={generatePDF}
+  className="mt-3 ml-3 bg-red-600 text-white px-6 py-3 rounded-lg"
+>
+  📄 Download PDF
 </button>
       </div>
     </div>
