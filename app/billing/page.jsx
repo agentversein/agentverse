@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function BillingPage() {
   const [customers, setCustomers] = useState([]);
+  const [customer, setCustomer] = useState("");
   const [items, setItems] = useState([
     {
       name: "",
