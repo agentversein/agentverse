@@ -59,7 +59,20 @@ const loadProducts = async () => {
         grandTotal: total,
       }),
     });
-    const generatePDF = () => {
+   
+    const data = await res.json();
+
+    if (data.success) {
+      alert(`✅ Invoice Created: ${data.invoice.invoiceNumber}`);
+    } else {
+      alert(data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Invoice creation failed");
+  }
+};
+const generatePDF = () => {
   const doc = new jsPDF();
 
   doc.setFontSize(20);
@@ -94,18 +107,6 @@ const loadProducts = async () => {
   doc.text(`Grand Total : ₹${total}`, 15, finalY + 18);
 
   doc.save("Invoice.pdf");
-};
-    const data = await res.json();
-
-    if (data.success) {
-      alert(`✅ Invoice Created: ${data.invoice.invoiceNumber}`);
-    } else {
-      alert(data.message);
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Invoice creation failed");
-  }
 };
   const subtotal = items.reduce(
     (sum, item) => sum + item.qty * item.price,
