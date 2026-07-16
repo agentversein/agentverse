@@ -137,6 +137,83 @@ transition: "transform .3s ease",
 </button>
 <hr style={{ margin: "18px 0" }} />
 
+<h3 style={{ marginBottom: 10 }}>
+  🏢 Business
+</h3>
+
+<button
+  onClick={() => {
+    window.location.href = "/billing";
+  }}
+  style={{
+    padding: 10,
+    background: "#16a34a",
+    color: "#fff",
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+    marginBottom: 8,
+    width: "100%",
+  }}
+>
+  💰 Billing
+</button>
+
+<button
+  onClick={() => {
+    window.location.href = "/customers";
+  }}
+  style={{
+    padding: 10,
+    background: "#0ea5e9",
+    color: "#fff",
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+    marginBottom: 8,
+    width: "100%",
+  }}
+>
+  👥 Customers
+</button>
+
+<button
+  onClick={() => {
+    window.location.href = "/products";
+  }}
+  style={{
+    padding: 10,
+    background: "#7c3aed",
+    color: "#fff",
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+    marginBottom: 8,
+    width: "100%",
+  }}
+>
+  📦 Products
+</button>
+
+<button
+  onClick={() => {
+    window.location.href = "/invoices";
+  }}
+  style={{
+    padding: 10,
+    background: "#f97316",
+    color: "#fff",
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+    marginBottom: 8,
+    width: "100%",
+  }}
+>
+  📄 Invoices
+</button>
+<hr style={{ margin: "18px 0" }} />
+
 
 
 <hr style={{ margin: "18px 0" }} />
