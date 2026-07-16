@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 export default function BillingPage() {
   const [customers, setCustomers] = useState([]);
   const [customer, setCustomer] = useState("");
+  const [products, setProducts] = useState([]);
   const [items, setItems] = useState([
     {
       name: "",
@@ -19,6 +20,10 @@ export default function BillingPage() {
     .then((data) => setCustomers(data))
     .catch(console.error);
 }, []);
+fetch("/api/products")
+  .then((res) => res.json())
+  .then((data) => setProducts(data))
+  .catch(console.error);
   const addItem = () => {
     setItems([
       ...items,
@@ -99,16 +104,31 @@ export default function BillingPage() {
             key={index}
             className="grid grid-cols-4 gap-3 mb-4"
           >
-            <input
-              placeholder="Product"
-              value={item.name}
-              onChange={(e) => {
-                const temp = [...items];
-                temp[index].name = e.target.value;
-                setItems(temp);
-              }}
-              className="border rounded-lg p-2"
-            />
+            <select
+  value={item.name}
+  onChange={(e) => {
+    const selected = products.find(
+      (p) => p._id === e.target.value
+    );
+
+    const temp = [...items];
+
+    temp[index].name = selected.name;
+    temp[index].price = selected.sellingPrice;
+    temp[index].gst = selected.gst;
+
+    setItems(temp);
+  }}
+  className="border rounded-lg p-2"
+>
+  <option value="">Select Product</option>
+
+  {products.map((p) => (
+    <option key={p._id} value={p._id}>
+      {p.name}
+    </option>
+  ))}
+</select>
 
             <input
               type="number"
