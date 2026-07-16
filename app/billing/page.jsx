@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function BillingPage() {
-  const [customer, setCustomer] = useState("");
+  const [customers, setCustomers] = useState([]);
   const [items, setItems] = useState([
     {
       name: "",
@@ -12,7 +12,12 @@ export default function BillingPage() {
       gst: 18,
     },
   ]);
-
+  useEffect(() => {
+  fetch("/api/customers")
+    .then((res) => res.json())
+    .then((data) => setCustomers(data))
+    .catch(console.error);
+}, []);
   const addItem = () => {
     setItems([
       ...items,
@@ -74,12 +79,19 @@ export default function BillingPage() {
 
       <div className="bg-white rounded-xl shadow p-6">
 
-        <input
-          placeholder="Customer Name"
-          value={customer}
-          onChange={(e) => setCustomer(e.target.value)}
-          className="w-full border rounded-lg p-3 mb-6"
-        />
+       <select
+  value={customer}
+  onChange={(e) => setCustomer(e.target.value)}
+  className="w-full border rounded-lg p-3 mb-6"
+>
+  <option value="">Select Customer</option>
+
+  {customers.map((c) => (
+    <option key={c._id} value={c._id}>
+      {c.name}
+    </option>
+  ))}
+</select>
 
         {items.map((item, index) => (
           <div
