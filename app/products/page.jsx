@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProductsPage() {
   const [product, setProduct] = useState({
@@ -12,10 +12,20 @@ export default function ProductsPage() {
     sellingPrice: "",
     stock: "",
   });
+  const [products, setProducts] = useState([]);
 
+const loadProducts = async () => {
+  const res = await fetch("/api/products");
+  const data = await res.json();
+  setProducts(data);
+};
+
+useEffect(() => {
+  loadProducts();
+}, []);
   const saveProduct = async () => {
     try {
-      const res = await fetch("/api/products/create", {
+      const res = await fetch("/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +37,7 @@ export default function ProductsPage() {
 
       if (data.success) {
         alert("✅ Product Saved Successfully");
-
+       loadProducts ();
         setProduct({
           name: "",
           sku: "",
@@ -143,14 +153,47 @@ export default function ProductsPage() {
           }
         />
 
-        <button
-          onClick={saveProduct}
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg"
-        >
-          💾 Save Product
-        </button>
+       <button
+  onClick={saveProduct}
+  className="bg-blue-600 text-white px-6 py-3 rounded-lg"
+>
+  💾 Save Product
+</button>
 
-      </div>
-    </div>
+</div>
+
+<div className="bg-white rounded-xl shadow-lg p-6 mt-8">
+  <h2 className="text-2xl font-bold mb-4">
+    Saved Products
+  </h2>
+
+  <table className="w-full border">
+    <thead>
+      <tr className="bg-gray-200">
+        <th className="p-2 border">Name</th>
+        <th className="p-2 border">SKU</th>
+        <th className="p-2 border">Price</th>
+        <th className="p-2 border">Stock</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {products.map((p) => (
+        <tr key={p._id}>
+          <td className="border p-2">{p.name}</td>
+          <td className="border p-2">{p.sku}</td>
+          <td className="border p-2">
+            ₹{p.sellingPrice}
+          </td>
+          <td className="border p-2">
+            {p.stock}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+</div>
   );
 }
