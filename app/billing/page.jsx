@@ -2,9 +2,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useState, useEffect } from "react";
-const selectedCustomer = customers.find(
-  (c) => c._id === customer
-);
 export default function BillingPage() {
   const [customers, setCustomers] = useState([]);
   const [customer, setCustomer] = useState("");
@@ -18,6 +15,9 @@ export default function BillingPage() {
       gst: 18,
     },
   ]);
+  const selectedCustomer = customers.find(
+  (c) => c._id === customer
+);
  useEffect(() => {
   loadCustomers();
   loadProducts();
@@ -65,6 +65,7 @@ const loadProducts = async () => {
     const data = await res.json();
 
     if (data.success) {
+      generatePDF();
       alert(`✅ Invoice Created: ${data.invoice.invoiceNumber}`);
     } else {
       alert(data.message);
