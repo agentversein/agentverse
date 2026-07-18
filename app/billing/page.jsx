@@ -2,7 +2,9 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useState, useEffect } from "react";
-
+const selectedCustomer = customers.find(
+  (c) => c._id === customer
+);
 export default function BillingPage() {
   const [customers, setCustomers] = useState([]);
   const [customer, setCustomer] = useState("");
@@ -75,36 +77,129 @@ const loadProducts = async () => {
 const generatePDF = () => {
   const doc = new jsPDF();
 
-  doc.setFontSize(20);
-  doc.text("TAX INVOICE", 80, 20);
+  // Company Header
+  doc.setFillColor(30, 64, 175);
+  doc.rect(0, 0, 210, 30, "F");
 
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(22);
+  doc.text("VIRENDER ENTERPRISES", 14, 15);
+
+  doc.setFontSize(10);
+  doc.text("Kitchenware Wholesaler", 14, 22);
+
+  doc.setTextColor(0, 0, 0);
+
+  // Invoice Title
+  doc.setFontSize(20);
+  doc.text("TAX INVOICE", 145, 20);
+
+  // Company Details
+  doc.setFontSize(11);
+
+  doc.text("Address : Ludhiana, Punjab", 14, 42);
+  doc.text("Phone : +91 XXXXXXXXXX", 14, 49);
+  doc.text("GSTIN : XXXXXXXX", 14, 56);
+  const invoiceNo =
+  "INV-" + Date.now().toString().slice(-6);
+
+doc.text(
+  `Invoice No : ${invoiceNo}`,
+  14,
+  63
+);
+
+  // Customer Details
   doc.setFontSize(12);
-  doc.text(`Customer: ${customer}`, 15, 35);
-  doc.text(`Date: ${new Date().toLocaleDateString()}`, 15, 42);
+
+  doc.text(
+  `Customer : ${selectedCustomer?.name || ""}`,
+  120,
+  42
+);
+
+doc.text(
+  `Phone : ${selectedCustomer?.phone || ""}`,
+  120,
+  49
+);
+
+doc.text(
+  `GST : ${selectedCustomer?.gst || ""}`,
+  120,
+  56
+);
+
+doc.text(
+  `Address : ${selectedCustomer?.address || ""}`,
+  120,
+  63
+);
+  doc.text(
+    `Date : ${new Date().toLocaleDateString()}`,
+    120,
+    49
+  );
 
   autoTable(doc, {
-    startY: 50,
-    head: [["Product", "Qty", "Price", "GST", "Total"]],
-    body: items.map((item) => [
-      item.name,
-      item.qty,
-      `₹${item.price}`,
-      `${item.gst}%`,
-      `₹${(
-        item.qty *
-        item.price *
-        (1 + item.gst / 100)
-      ).toFixed(2)}`,
-    ]),
+    startY: 65,
+
+    head: [[
+  "Product",
+  "HSN",
+  "Qty",
+  "Rate",
+  "GST",
+  "Amount",
+]],
+
+   body: items.map((item) => [
+  item.name,
+  item.hsnCode || "",
+  item.qty,
+  `₹${item.price}`,
+  `${item.gst}%`,
+  `₹${(
+    item.qty *
+    item.price *
+    (1 + item.gst / 100)
+  ).toFixed(2)}`,
+]),
+
+    theme: "grid",
+
+    headStyles: {
+      fillColor: [30, 64, 175],
+    },
   });
 
-  const finalY = doc.lastAutoTable.finalY + 10;
+  const y = doc.lastAutoTable.finalY + 10;
 
-  doc.text(`Subtotal : ₹${subtotal}`, 15, finalY);
-  doc.text(`GST : ₹${gstAmount}`, 15, finalY + 8);
+  doc.setFontSize(12);
+
+  doc.text(`Subtotal : ₹${subtotal}`, 140, y);
+
+  doc.text(`GST : ₹${gstAmount}`, 140, y + 8);
 
   doc.setFontSize(15);
-  doc.text(`Grand Total : ₹${total}`, 15, finalY + 18);
+
+  doc.text(`Grand Total : ₹${total}`, 140, y + 18);
+
+  doc.line(14, y + 35, 195, y + 35);
+
+  doc.setFontSize(11);
+
+  doc.text(
+    "Thank you for your business!",
+    14,
+    y + 45
+  );
+
+  doc.text(
+    "Authorized Signature",
+    145,
+    y + 45
+  );
 
   doc.save("Invoice.pdf");
 };
