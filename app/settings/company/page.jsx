@@ -1,22 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-useEffect(() => {
-  loadCompany();
-}, []);
 
-const loadCompany = async () => {
-  try {
-    const res = await fetch("/api/company");
-    const data = await res.json();
-
-    if (data && data._id) {
-      setCompany(data);
-    }
-  } catch (err) {
-    console.error(err);
-  }
-};
 export default function CompanySettings() {
   const [company, setCompany] = useState({
     name: "",
@@ -31,7 +16,22 @@ export default function CompanySettings() {
     ifsc: "",
     upiId: "",
   });
+const loadCompany = async () => {
+  try {
+    const res = await fetch("/api/company");
+    const data = await res.json();
 
+    if (data && data._id) {
+      setCompany(data);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+useEffect(() => {
+  loadCompany();
+}, []);
   const saveCompany = async () => {
     const res = await fetch("/api/company", {
       method: "POST",
