@@ -6,6 +6,7 @@ export default function BillingPage() {
   const [customers, setCustomers] = useState([]);
   const [customer, setCustomer] = useState("");
   const [products, setProducts] = useState([]);
+  const [company, setCompany] = useState(null);
   const [items, setItems] = useState([
     {
       product: "",
@@ -21,8 +22,18 @@ export default function BillingPage() {
  useEffect(() => {
   loadCustomers();
   loadProducts();
+  loadCompany();
 }, []);
+const loadCompany = async () => {
+  try {
+    const res = await fetch("/api/company");
+    const data = await res.json();
 
+    setCompany(data);
+  } catch (err) {
+    console.error(err);
+  }
+};
 const loadCustomers = async () => {
   const res = await fetch("/api/customers");
   const data = await res.json();
@@ -84,10 +95,9 @@ const generatePDF = () => {
 
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(22);
-  doc.text("VIRENDER ENTERPRISES", 14, 15);
-
+ doc.text(company?.name || "Company Name", 14, 15);
   doc.setFontSize(10);
-  doc.text("Kitchenware Wholesaler", 14, 22);
+ doc.text(company?.tagline || "", 14, 22);
 
   doc.setTextColor(0, 0, 0);
 
@@ -98,9 +108,21 @@ const generatePDF = () => {
   // Company Details
   doc.setFontSize(11);
 
-  doc.text("Address : Ludhiana, Punjab", 14, 42);
-  doc.text("Phone : +91 XXXXXXXXXX", 14, 49);
-  doc.text("GSTIN : XXXXXXXX", 14, 56);
+  doc.text(
+  `Address : ${company?.address || ""}`,
+  14,
+  42
+);
+ doc.text(
+  `Phone : ${company?.phone || ""}`,
+  14,
+  49
+);
+ doc.text(
+  `GSTIN : ${company?.gstNumber || ""}`,
+  14,
+  56
+);
   const invoiceNo =
   "INV-" + Date.now().toString().slice(-6);
 
