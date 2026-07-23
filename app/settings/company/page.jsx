@@ -1,7 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+const handleLogo = (e) => {
+  const file = e.target.files[0];
 
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    setCompany({
+      ...company,
+      logo: reader.result,
+    });
+  };
+
+  reader.readAsDataURL(file);
+};
 export default function CompanySettings() {
   const [company, setCompany] = useState({
     name: "",
@@ -58,71 +73,148 @@ useEffect(() => {
           🏢 Company Settings
         </h1>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Company Name"
-          onChange={(e)=>setCompany({...company,name:e.target.value})}
-        />
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Company Name"
+  value={company.name}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      name: e.target.value,
+    })
+  }
+/>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Tagline"
-          onChange={(e)=>setCompany({...company,tagline:e.target.value})}
-        />
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Tagline"
+  value={company.tagline}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      tagline: e.target.value,
+    })
+  }
+/>
+      <textarea
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Address"
+  value={company.address}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      address: e.target.value,
+    })
+  }
+/>
 
-        <textarea
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Address"
-          onChange={(e)=>setCompany({...company,address:e.target.value})}
-        />
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Phone"
+  value={company.phone}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      phone: e.target.value,
+    })
+  }
+/>
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Email"
+  value={company.email}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      email: e.target.value,
+    })
+  }
+/>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Phone"
-          onChange={(e)=>setCompany({...company,phone:e.target.value})}
-        />
+     <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Website"
+  value={company.website}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      website: e.target.value,
+    })
+  }
+/>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Email"
-          onChange={(e)=>setCompany({...company,email:e.target.value})}
-        />
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="GST Number"
+  value={company.gstNumber}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      gstNumber: e.target.value,
+    })
+  }
+/>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Website"
-          onChange={(e)=>setCompany({...company,website:e.target.value})}
-        />
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Bank Name"
+  value={company.bankName}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      bankName: e.target.value,
+    })
+  }
+/>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="GST Number"
-          onChange={(e)=>setCompany({...company,gstNumber:e.target.value})}
-        />
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="Account Number"
+  value={company.accountNumber}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      accountNumber: e.target.value,
+    })
+  }
+/>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Bank Name"
-          onChange={(e)=>setCompany({...company,bankName:e.target.value})}
-        />
+       <input
+  className="w-full border p-3 rounded mb-3"
+  placeholder="IFSC Code"
+  value={company.ifsc}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      ifsc: e.target.value,
+    })
+  }
+/>
+        <div className="mb-5">
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="Account Number"
-          onChange={(e)=>setCompany({...company,accountNumber:e.target.value})}
-        />
+<label className="font-semibold">
+Company Logo
+</label>
 
-        <input
-          className="w-full border p-3 rounded mb-3"
-          placeholder="IFSC Code"
-          onChange={(e)=>setCompany({...company,ifsc:e.target.value})}
-        />
+<input
+type="file"
+accept="image/*"
+onChange={handleLogo}
+className="mt-2"
+/>
 
-        <input
-          className="w-full border p-3 rounded mb-5"
-          placeholder="UPI ID"
-          onChange={(e)=>setCompany({...company,upiId:e.target.value})}
-        />
+</div>
+       <input
+  className="w-full border p-3 rounded mb-5"
+  placeholder="UPI ID"
+  value={company.upiId}
+  onChange={(e) =>
+    setCompany({
+      ...company,
+      upiId: e.target.value,
+    })
+  }
+/>
 
         <button
           onClick={saveCompany}

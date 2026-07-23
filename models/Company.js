@@ -36,6 +36,11 @@ const CompanySchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    
+    logo: {
+      type: String,
+      default: "",
+    },
 
     gstNumber: {
       type: String,
