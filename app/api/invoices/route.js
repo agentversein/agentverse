@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Invoice from "@/models/Invoice";
-
+import Customer from  "@/models/Customer";
 export async function GET() {
   try {
     await connectDB();
