@@ -1,23 +1,4 @@
-"use client";
-
-import { useState, useEffect } from "react";
-const handleLogo = (e) => {
-  const file = e.target.files[0];
-
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    setCompany({
-      ...company,
-      logo: reader.result,
-    });
-  };
-
-  reader.readAsDataURL(file);
-};
-export default function CompanySettings() {
+  export default function CompanySettings() {
   const [company, setCompany] = useState({
     name: "",
     tagline: "",
@@ -30,7 +11,24 @@ export default function CompanySettings() {
     accountNumber: "",
     ifsc: "",
     upiId: "",
+    logo: "",
   });
+  const handleLogo = (e) => {
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    setCompany((prev) => ({
+      ...prev,
+      logo: reader.result,
+    }));
+  };
+
+  reader.readAsDataURL(file);
+};
 const loadCompany = async () => {
   try {
     const res = await fetch("/api/company");
@@ -58,9 +56,10 @@ useEffect(() => {
 
     const data = await res.json();
 
-    if (data.success) {
-      alert("✅ Company Details Saved");
-    } else {
+   if (data.success) {
+  setCompany(data.company);
+  alert("✅ Company Details Saved");
+} else {
       alert(data.message);
     }
   };
@@ -202,7 +201,13 @@ accept="image/*"
 onChange={handleLogo}
 className="mt-2"
 />
-
+{company.logo && (
+  <img
+    src={company.logo}
+    alt="Company Logo"
+    className="mt-3 h-20 w-20 object-contain border rounded"
+  />
+)}
 </div>
        <input
   className="w-full border p-3 rounded mb-5"
